@@ -1,25 +1,42 @@
-class Ninja{
-  constructor(name){
+class Ninja {
+  constructor(name) {
     this.name = name;
     this.health = 100;
     this.strength = 3;
     this.speed = 3;
   }
-  sayName(){
+  sayName() {
     console.log(`Name: ${this.name}`);
+    return this;
   }
-  showStats(){
-    console.log(`Name: ${this.name}, Strength: ${this.strength}, Speed: ${this.speed}, Health: ${this.health}`);
+  showStats() {
+    console.log(`Name: ${this.name}, Health: ${this.health}, Strength: ${this.strength}, Speed: ${this.speed}`);
+    return this;
   }
-  drinkSake(){
+  drinkSake() {
     this.health += 10;
+    return this;
   }
 }
 
-let ninja1 = new Ninja("Hyabusa");
-ninja1.sayName();
-console.log("Stats before drinking sake");
-ninja1.showStats();
-ninja1.drinkSake();
-console.log("Stats after drinking sake");
-ninja1.showStats();
+class Sensei extends Ninja {
+  constructor(name){
+    super(name);
+    this.health = 200;
+    this.speed = 10;
+    this.strength = 10;
+    this.wisdom = 10;
+  }
+  speakWisdom() {
+    super.drinkSake();
+    console.log("You can never plan the future by the past.");
+    return this;
+  }
+}
+
+const ninja1 = new Ninja("Hyabusa");
+ninja1.sayName().showStats().drinkSake().showStats();
+
+
+const sensei = new Sensei("Master Splinter");
+sensei.showStats().speakWisdom().showStats();
