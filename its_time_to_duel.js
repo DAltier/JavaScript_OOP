@@ -1,40 +1,116 @@
-class Card {
-  constructor(name, cost) {
+class Player{
+  constructor(name){
     this.name = name;
-    this.cost = cost;
   }
 }
 
-class Unit extends Card {
-  constructor(name, cost, power, resilience) {
-    super(name, cost);
-    this.power = power;
-    this.resilience = resilience;
+
+class Ninja extends Player{
+  constructor(name){
+    super(name);
+    this.coins = 10;
+    this.power = 10;
+    this.res = 10;
+    this.cost = 0;
   }
 
-  hardAlgorithm() {
-    this.resilience += 3;
+  redBeltNinja(){
+    this.cost = 3
+    if (this.coins >= this.coins - this.cost){ 
+      this.coins -= this.cost;
+      this.power += 3;
+      this.res += 4;
+      console.log(`${this.name} played Red Belt Ninja`);
+    } else {
+      console.log("Can not afford card");
+    }
   }
 
-  unhandledPromiseRejection() {
-    this.resilience -= 2;
-  }
-
-  pairProgramming() {
-    this.power += 2;
-  }
-  attack(target) {
-    target.resilience -= this.power;
+  blackBeltNinja(){
+    this.cost = 4
+    if (this.coins >= this.coins - this.cost){ 
+      this.coins -= this.cost;
+      this.power += 5;
+      this.res += 4;
+      console.log(`${this.name} played Black Belt Ninja`);
+    } else {
+      console.log("Can not afford card");
+    }
   }
 }
 
-let unit1 = new Unit("Red Belt Ninja", 3, 3, 4);
-unit1.hardAlgorithm();
 
-let unit2 = new Unit("Black Belt Ninja", 4, 5, 4);
-unit2.unhandledPromiseRejection();
+class DuelCards extends Ninja{
+  constructor(name){
+    super(name, 10, 10, 10);
+    this.cost = 0;
+  }
 
-unit1.pairProgramming();
+  hardAlgorithm(){
+    this.cost = 2;
+    if (this.coins >= this.coins - this.cost){
+      this.coins -= this.cost;
+      this.res += 3;
+      console.log(`${this.name} increaded their resiliance by 3`)
+    } else {
+      console.log("Can not afford card");
+    }
+  }
 
-unit1.attack(unit2);
+  unhandledPromiseRejection(target){
+    this.cost = 1;
+    if (this.coins >= this.coins - this.cost){
+      this.coins -= this.cost;
+      target.res -= 2;
+      console.log(`${this.name} reduced ${target.name}'s resiliance by 2`)
+    } else {
+      console.log("Can not afford card");
+    }
+  }
 
+  pairProgramming(){
+    this.cost = 3;
+    if (this.coins >= this.coins - this.cost){
+      this.coins -= this.cost;
+      this.power += 2;
+      console.log(`${this.name} incresed their Power by 3`)
+    } else {
+      console.log("Can not afford card");
+    }
+  }
+  attack(target){
+    target.res -= this.power;
+    console.log(`${this.name} attacked ${target.name} doing a damage of ${this.power}`)
+    if( target.res > this.power){
+      console.log(`${target.name} survied the attack`);
+    } else {
+      console.log(`${target.name} lost the battle`);
+    }
+  }
+}
+
+
+// #1
+const player1 = new DuelCards("Momochi");
+player1.redBeltNinja();
+console.log(player1);
+
+// #2
+player1.hardAlgorithm();
+console.log(player1);
+
+// #3
+const player2 = new DuelCards("Jinichi");
+player2.blackBeltNinja();
+console.log(player2);
+
+// #4
+player2.unhandledPromiseRejection(player1);
+console.log(player1);
+
+// #5
+player1.pairProgramming()
+console.log(player1);
+
+// #6
+player1.attack(player2);
